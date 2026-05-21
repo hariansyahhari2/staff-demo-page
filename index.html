@@ -124,6 +124,10 @@
         .button-disabled:hover {
             background-color: #101f79;
         }
+
+        .branch-dropdown[hidden] {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md">
@@ -154,6 +158,21 @@
 <div class="space-y-2">
 <label class="block font-label-lg text-label-lg text-on-surface" for="customerId">Customer ID<span class="text-error ml-1">*</span></label>
 <input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="customerId" name="customerId" placeholder="Enter Customer ID" type="text" required="">
+</div>
+</div>
+<!-- Branch Location -->
+<div class="space-y-2">
+<label class="block font-label-lg text-label-lg text-on-surface" for="branchSearch">Branch Location<span class="text-error ml-1">*</span></label>
+<div class="relative">
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="branchSearch" name="branchSearch" placeholder="Search or select branch..." type="search" autocomplete="off" role="combobox" aria-controls="branchDropdown" aria-expanded="false" required="">
+<input id="branch" name="branch" type="hidden">
+<div class="pointer-events-none absolute top-0 bottom-0 left-0 flex items-center px-4 text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
+</div>
+<button class="absolute top-0 bottom-0 right-0 flex items-center px-4 text-on-surface-variant" id="branchDropdownButton" type="button" aria-label="Show branch options">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+<div class="branch-dropdown absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-lg border border-outline-variant bg-surface-container-lowest shadow-lg" id="branchDropdown" role="listbox" hidden=""></div>
 </div>
 </div>
 <!-- User Category -->
@@ -272,6 +291,137 @@
             ]
         };
 
+        const branchOptions = [
+            { code: 'KDHQ', name: 'KWSP Kwasa Damansara (HQ)' },
+            { code: 'KPG', name: 'KWSP Kepong' },
+            { code: 'PJY', name: 'KWSP Petaling Jaya' },
+            { code: 'GMB', name: 'KWSP Gombak' },
+            { code: 'KUL', name: 'KWSP Kuala Lumpur' },
+            { code: 'RWG', name: 'KWSP Rawang' },
+            { code: 'SHA', name: 'KWSP Shah Alam' },
+            { code: 'WMJ', name: 'KWSP Wangsa Maju' },
+            { code: 'SPT', name: 'KWSP Sri Petaling' },
+            { code: 'PCH', name: 'KWSP Puchong' },
+            { code: 'KLG', name: 'KWSP Klang' },
+            { code: 'PJH', name: 'KWSP Putrajaya' },
+            { code: 'KJG', name: 'KWSP Kajang' },
+            { code: 'KSE', name: 'KWSP Kuala Selangor' },
+            { code: 'NIL', name: 'KWSP Nilai' },
+            { code: 'SRB', name: 'KWSP Seremban' },
+            { code: 'RAB', name: 'KWSP Raub' },
+            { code: 'TML', name: 'KWSP Temerloh' },
+            { code: 'BHU', name: 'KWSP Bahau' },
+            { code: 'TIN', name: 'KWSP Teluk Intan' },
+            { code: 'AGJ', name: 'KWSP Alor Gajah' },
+            { code: 'JRT', name: 'KWSP Jerantut' },
+            { code: 'MLK', name: 'KWSP Bandar Melaka' },
+            { code: 'JSN', name: 'KWSP Jasin' },
+            { code: 'MNJ', name: 'KWSP Manjung' },
+            { code: 'SGM', name: 'KWSP Segamat' },
+            { code: 'IPH', name: 'KWSP Ipoh' },
+            { code: 'MUR', name: 'KWSP Muar' },
+            { code: 'KKS', name: 'KWSP Kuala Kangsar' },
+            { code: 'KUA', name: 'KWSP Kuantan' },
+            { code: 'PKN', name: 'KWSP Pekan' },
+            { code: 'TPG', name: 'KWSP Taiping' },
+            { code: 'BPT', name: 'KWSP Batu Pahat' },
+            { code: 'KLU', name: 'KWSP Kluang' },
+            { code: 'KMM', name: 'KWSP Kemaman' },
+            { code: 'PBT', name: 'KWSP Parit Buntar' },
+            { code: 'MSG', name: 'KWSP Mersing' },
+            { code: 'DGN', name: 'KWSP Dungun' },
+            { code: 'KLM', name: 'KWSP Kulim' },
+            { code: 'KKR', name: 'KWSP Kuala Krai' },
+            { code: 'BYB', name: 'KWSP Bayan Baru' },
+            { code: 'SBJ', name: 'KWSP Seberang Jaya' },
+            { code: 'GTN', name: 'KWSP Georgetown' },
+            { code: 'KLI', name: 'KWSP Kulai' },
+            { code: 'TGG', name: 'KWSP Kuala Terengganu' },
+            { code: 'TNM', name: 'KWSP Tanah Merah' },
+            { code: 'SPN', name: 'KWSP Sungai Petani' },
+            { code: 'JTH', name: 'KWSP Jerteh' },
+            { code: 'JHB', name: 'KWSP Johor Bahru' },
+            { code: 'PGD', name: 'KWSP Pasir Gudang' },
+            { code: 'KBR', name: 'KWSP Kota Bharu' },
+            { code: 'AST', name: 'KWSP Alor Setar' },
+            { code: 'KGR', name: 'KWSP Kangar' },
+            { code: 'LGK', name: 'KWSP Langkawi' },
+            { code: 'KCH', name: 'KWSP Kuching' },
+            { code: 'SRK', name: 'KWSP Sarikei' },
+            { code: 'SAM', name: 'KWSP Sri Aman' },
+            { code: 'SBU', name: 'KWSP Sibu' },
+            { code: 'BTU', name: 'KWSP Bintulu' },
+            { code: 'MYY', name: 'KWSP Miri' },
+            { code: 'LBG', name: 'KWSP Limbang' },
+            { code: 'LBN', name: 'KWSP Labuan' },
+            { code: 'BFT', name: 'KWSP Beaufort' },
+            { code: 'BKI', name: 'KWSP Kota Kinabalu' },
+            { code: 'KNG', name: 'KWSP Keningau' },
+            { code: 'KMD', name: 'KWSP Kota Marudu' },
+            { code: 'KDT', name: 'KWSP Kudat' },
+            { code: 'TWU', name: 'KWSP Tawau' },
+            { code: 'SDK', name: 'KWSP Sandakan' },
+            { code: 'LDU', name: 'KWSP Lahad Datu' }
+        ];
+
+        function setBranchValidity() {
+            const branchInput = document.getElementById('branchSearch');
+            const selectedBranchCode = document.getElementById('branch').value;
+            branchInput.setCustomValidity(selectedBranchCode ? '' : 'Please select a branch from the list.');
+        }
+
+        function renderBranchOptions(options = branchOptions) {
+            const branchDropdown = document.getElementById('branchDropdown');
+
+            if (options.length === 0) {
+                branchDropdown.innerHTML = '<div class="px-4 py-3 text-body-sm text-on-surface-variant">No branches found</div>';
+                return;
+            }
+
+            branchDropdown.innerHTML = options.map(branch => `
+                <button class="w-full px-4 py-3 text-left hover:bg-surface-container-low focus:bg-surface-container-low focus:outline-none" type="button" role="option" data-branch-code="${branch.code}" data-branch-name="${branch.name}">
+                    <span class="block font-label-lg text-label-lg text-on-surface">${branch.name}</span>
+                    <span class="block font-label-sm text-label-sm text-on-surface-variant">Branch Code ${branch.code}</span>
+                </button>
+            `).join('');
+        }
+
+        function openBranchDropdown() {
+            const branchDropdown = document.getElementById('branchDropdown');
+            const branchInput = document.getElementById('branchSearch');
+            branchDropdown.hidden = false;
+            branchInput.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeBranchDropdown() {
+            const branchDropdown = document.getElementById('branchDropdown');
+            const branchInput = document.getElementById('branchSearch');
+            branchDropdown.hidden = true;
+            branchInput.setAttribute('aria-expanded', 'false');
+        }
+
+        function filterBranchOptions() {
+            const branchInput = document.getElementById('branchSearch');
+            const query = branchInput.value.trim().toLowerCase();
+            const filteredBranches = branchOptions.filter(branch => {
+                return branch.name.toLowerCase().includes(query) || branch.code.toLowerCase().includes(query);
+            });
+
+            document.getElementById('branch').value = '';
+            setBranchValidity();
+            renderBranchOptions(filteredBranches);
+            openBranchDropdown();
+            updateSubmitButtonState();
+        }
+
+        function selectBranch(branchCode, branchName) {
+            document.getElementById('branch').value = branchCode;
+            document.getElementById('branchSearch').value = branchName;
+            setBranchValidity();
+            closeBranchDropdown();
+            updateSubmitButtonState();
+        }
+
         function updateReasons() {
             const category = document.querySelector('input[name="category"]:checked').value;
             const reasonSelect = document.getElementById('reason');
@@ -307,6 +457,37 @@
         visitorRegistrationForm.addEventListener('input', updateSubmitButtonState);
         visitorRegistrationForm.addEventListener('change', updateSubmitButtonState);
 
+        const branchInput = document.getElementById('branchSearch');
+        const branchDropdown = document.getElementById('branchDropdown');
+
+        branchInput.addEventListener('input', filterBranchOptions);
+        branchInput.addEventListener('focus', function() {
+            renderBranchOptions(branchOptions);
+            openBranchDropdown();
+        });
+
+        document.getElementById('branchDropdownButton').addEventListener('click', function() {
+            renderBranchOptions(branchOptions);
+            openBranchDropdown();
+            branchInput.focus();
+        });
+
+        branchDropdown.addEventListener('click', function(event) {
+            const option = event.target.closest('[data-branch-code]');
+
+            if (!option) {
+                return;
+            }
+
+            selectBranch(option.dataset.branchCode, option.dataset.branchName);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('#branchDropdown') && !event.target.closest('#branchSearch') && !event.target.closest('#branchDropdownButton')) {
+                closeBranchDropdown();
+            }
+        });
+
         document.getElementById('submitButton').addEventListener('click', function(event) {
             if (visitorRegistrationForm.checkValidity()) {
                 return;
@@ -330,6 +511,8 @@
             window.location.href = categoryRedirectUrls[category];
         });
 
+        renderBranchOptions();
+        setBranchValidity();
         updateReasons();
     </script>
 
