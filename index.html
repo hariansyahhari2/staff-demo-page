@@ -115,6 +115,15 @@
         .custom-select::-ms-expand {
             display: none;
         }
+
+        .button-disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .button-disabled:hover {
+            background-color: #101f79;
+        }
     </style>
 </head>
 <body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md">
@@ -176,7 +185,8 @@
 </div>
 <!-- Action Button -->
 <div class="pt-4">
-<button type="submit" id="submitButton" disabled="" class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg py-4 rounded-lg transition-colors duration-200 flex justify-center items-center gap-2 disabled:bg-surface-container-high disabled:text-on-surface-variant disabled:cursor-not-allowed disabled:hover:bg-surface-container-high"><span class="">Register Attendance</span><span class="material-symbols-outlined">arrow_forward</span></button>
+<button type="submit" id="submitButton" aria-disabled="true" class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg py-4 rounded-lg transition-colors duration-200 flex justify-center items-center gap-2 button-disabled"><span class="">Register Attendance</span></button>
+<p id="formHint" class="hidden mt-3 text-error text-body-sm text-center">Please fill in all required fields before registering.</p>
 </div>
 </form>
 </div>
@@ -273,7 +283,14 @@
         function updateSubmitButtonState() {
             const form = document.getElementById('visitorRegistrationForm');
             const submitButton = document.getElementById('submitButton');
-            submitButton.disabled = !form.checkValidity();
+            const formIsValid = form.checkValidity();
+
+            submitButton.setAttribute('aria-disabled', String(!formIsValid));
+            submitButton.classList.toggle('button-disabled', !formIsValid);
+
+            if (formIsValid) {
+                document.getElementById('formHint').classList.add('hidden');
+            }
         }
 
         const visitorRegistrationForm = document.getElementById('visitorRegistrationForm');
@@ -281,10 +298,21 @@
         visitorRegistrationForm.addEventListener('input', updateSubmitButtonState);
         visitorRegistrationForm.addEventListener('change', updateSubmitButtonState);
 
+        document.getElementById('submitButton').addEventListener('click', function(event) {
+            if (visitorRegistrationForm.checkValidity()) {
+                return;
+            }
+
+            event.preventDefault();
+            document.getElementById('formHint').classList.remove('hidden');
+            visitorRegistrationForm.reportValidity();
+        });
+
         visitorRegistrationForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
             if (!this.checkValidity()) {
+                document.getElementById('formHint').classList.remove('hidden');
                 this.reportValidity();
                 return;
             }
