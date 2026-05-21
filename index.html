@@ -107,6 +107,14 @@
             color: #ffffff;
             border-color: #101f79;
         }
+
+        .custom-select {
+            background-image: none !important;
+        }
+
+        .custom-select::-ms-expand {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md">
@@ -156,7 +164,7 @@
 <div class="space-y-2">
 <label class="block font-label-lg text-label-lg text-on-surface" for="reason">Reason for Attendance<span class="text-error ml-1">*</span></label>
 <div class="relative">
-<select class="w-full appearance-none bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="reason" name="reason" required="">
+<select class="custom-select w-full appearance-none bg-surface border border-outline-variant rounded-lg pl-4 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="reason" name="reason" required="">
 <option disabled="" selected="" value="">Select a reason...</option>
 <option value="change-phone">Change phone number</option>
 <option value="withdrawal">Withdrawal</option>
@@ -168,7 +176,7 @@
 </div>
 <!-- Action Button -->
 <div class="pt-4">
-<button type="submit" class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg py-4 rounded-lg transition-colors duration-200 flex justify-center items-center gap-2"><span class="">Register Attendance</span><span class="material-symbols-outlined">arrow_forward</span></button>
+<button type="submit" id="submitButton" disabled="" class="w-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg py-4 rounded-lg transition-colors duration-200 flex justify-center items-center gap-2 disabled:bg-surface-container-high disabled:text-on-surface-variant disabled:cursor-not-allowed disabled:hover:bg-surface-container-high"><span class="">Register Attendance</span><span class="material-symbols-outlined">arrow_forward</span></button>
 </div>
 </form>
 </div>
@@ -258,9 +266,22 @@
                 el.textContent = opt.text;
                 reasonSelect.appendChild(el);
             });
+
+            updateSubmitButtonState();
         }
 
-        document.getElementById('visitorRegistrationForm').addEventListener('submit', function(event) {
+        function updateSubmitButtonState() {
+            const form = document.getElementById('visitorRegistrationForm');
+            const submitButton = document.getElementById('submitButton');
+            submitButton.disabled = !form.checkValidity();
+        }
+
+        const visitorRegistrationForm = document.getElementById('visitorRegistrationForm');
+
+        visitorRegistrationForm.addEventListener('input', updateSubmitButtonState);
+        visitorRegistrationForm.addEventListener('change', updateSubmitButtonState);
+
+        visitorRegistrationForm.addEventListener('submit', function(event) {
             event.preventDefault();
 
             if (!this.checkValidity()) {
