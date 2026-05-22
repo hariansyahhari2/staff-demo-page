@@ -160,7 +160,7 @@
 <input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="customerId" name="customerId" placeholder="Enter Customer ID" type="text" required="">
 </div>
 </div>
-<!-- Branch Location -->
+<!-- Branch Location - temporarily disabled, keep for future use.
 <div class="space-y-2">
 <label class="block font-label-lg text-label-lg text-on-surface" for="branchSearch">Branch Location<span class="text-error ml-1">*</span></label>
 <div class="relative">
@@ -175,6 +175,7 @@
 <div class="branch-dropdown absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-lg border border-outline-variant bg-surface-container-lowest shadow-lg" id="branchDropdown" role="listbox" hidden=""></div>
 </div>
 </div>
+-->
 <!-- User Category -->
 <div class="space-y-3">
 <label class="block font-label-lg text-label-lg text-on-surface">User Category<span class="text-error ml-1">*</span></label>
@@ -291,6 +292,9 @@
             ]
         };
 
+        /*
+        Branch location dropdown is temporarily disabled.
+        Keep this sample branch list and helper functions for future reuse.
         const branchOptions = [
             { code: 'KDHQ', name: 'KWSP Kwasa Damansara (HQ)' },
             { code: 'KPG', name: 'KWSP Kepong' },
@@ -422,6 +426,8 @@
             updateSubmitButtonState();
         }
 
+        */
+
         function updateReasons() {
             const category = document.querySelector('input[name="category"]:checked').value;
             const reasonSelect = document.getElementById('reason');
@@ -457,6 +463,8 @@
         visitorRegistrationForm.addEventListener('input', updateSubmitButtonState);
         visitorRegistrationForm.addEventListener('change', updateSubmitButtonState);
 
+        /*
+        Branch location dropdown event bindings are temporarily disabled.
         const branchInput = document.getElementById('branchSearch');
         const branchDropdown = document.getElementById('branchDropdown');
 
@@ -487,6 +495,7 @@
                 closeBranchDropdown();
             }
         });
+        */
 
         document.getElementById('submitButton').addEventListener('click', function(event) {
             if (visitorRegistrationForm.checkValidity()) {
@@ -511,8 +520,11 @@
             window.location.href = categoryRedirectUrls[category];
         });
 
+        /*
+        Branch location dropdown initialization is temporarily disabled.
         renderBranchOptions();
         setBranchValidity();
+        */
         updateReasons();
     </script>
 
