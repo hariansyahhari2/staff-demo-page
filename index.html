@@ -128,6 +128,10 @@
         .branch-dropdown[hidden] {
             display: none;
         }
+
+        .reason-dropdown[hidden] {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-background text-on-surface min-h-screen flex flex-col font-body-md">
@@ -196,16 +200,17 @@
 </div>
 <!-- Reason for Attendance -->
 <div class="space-y-2">
-<label class="block font-label-lg text-label-lg text-on-surface" for="reason">Reason for Attendance<span class="text-error ml-1">*</span></label>
+<label class="block font-label-lg text-label-lg text-on-surface" for="reasonSearch">Reason for Attendance<span class="text-error ml-1">*</span></label>
 <div class="relative">
-<select class="custom-select w-full appearance-none bg-surface border border-outline-variant rounded-lg pl-4 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="reason" name="reason" required="">
-<option disabled="" selected="" value="">Select a reason...</option>
-<option value="change-phone">Change phone number</option>
-<option value="withdrawal">Withdrawal</option>
-</select>
-<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-on-surface-variant">
-<span class="material-symbols-outlined">expand_more</span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="reasonSearch" name="reasonSearch" placeholder="Search or select reason..." type="search" autocomplete="off" role="combobox" aria-controls="reasonDropdown" aria-expanded="false" required="">
+<input id="reason" name="reason" type="hidden">
+<div class="pointer-events-none absolute top-0 bottom-0 left-0 flex items-center px-4 text-on-surface-variant">
+<span class="material-symbols-outlined">search</span>
 </div>
+<button class="absolute top-0 bottom-0 right-0 flex items-center px-4 text-on-surface-variant" id="reasonDropdownButton" type="button" aria-label="Show reason options">
+<span class="material-symbols-outlined">expand_more</span>
+</button>
+<div class="reason-dropdown absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-lg border border-outline-variant bg-surface-container-lowest shadow-lg" id="reasonDropdown" role="listbox" hidden=""></div>
 </div>
 </div>
 <!-- Action Button -->
@@ -428,19 +433,73 @@
 
         */
 
-        function updateReasons() {
+        function currentReasonOptions() {
             const category = document.querySelector('input[name="category"]:checked').value;
-            const reasonSelect = document.getElementById('reason');
-            
-            // Clear existing options except the first placeholder
-            reasonSelect.innerHTML = '<option disabled="" selected="" value="">Select a reason...</option>';
+            return reasonOptionsByCategory[category] || [];
+        }
 
-            reasonOptionsByCategory[category].forEach(opt => {
-                const el = document.createElement('option');
-                el.value = opt.value;
-                el.textContent = opt.text;
-                reasonSelect.appendChild(el);
+        function setReasonValidity() {
+            const reasonInput = document.getElementById('reasonSearch');
+            const selectedReason = document.getElementById('reason').value;
+            reasonInput.setCustomValidity(selectedReason ? '' : 'Please select a reason from the list.');
+        }
+
+        function renderReasonOptions(options = currentReasonOptions()) {
+            const reasonDropdown = document.getElementById('reasonDropdown');
+
+            if (options.length === 0) {
+                reasonDropdown.innerHTML = '<div class="px-4 py-3 text-body-sm text-on-surface-variant">No reasons found</div>';
+                return;
+            }
+
+            reasonDropdown.innerHTML = options.map(reason => `
+                <button class="w-full px-4 py-3 text-left hover:bg-surface-container-low focus:bg-surface-container-low focus:outline-none" type="button" role="option" data-reason-value="${reason.value}" data-reason-text="${reason.text}">
+                    <span class="block font-label-lg text-label-lg text-on-surface">${reason.text}</span>
+                </button>
+            `).join('');
+        }
+
+        function openReasonDropdown() {
+            const reasonDropdown = document.getElementById('reasonDropdown');
+            const reasonInput = document.getElementById('reasonSearch');
+            reasonDropdown.hidden = false;
+            reasonInput.setAttribute('aria-expanded', 'true');
+        }
+
+        function closeReasonDropdown() {
+            const reasonDropdown = document.getElementById('reasonDropdown');
+            const reasonInput = document.getElementById('reasonSearch');
+            reasonDropdown.hidden = true;
+            reasonInput.setAttribute('aria-expanded', 'false');
+        }
+
+        function filterReasonOptions() {
+            const reasonInput = document.getElementById('reasonSearch');
+            const query = reasonInput.value.trim().toLowerCase();
+            const filteredReasons = currentReasonOptions().filter(reason => {
+                return reason.text.toLowerCase().includes(query) || reason.value.toLowerCase().includes(query);
             });
+
+            document.getElementById('reason').value = '';
+            setReasonValidity();
+            renderReasonOptions(filteredReasons);
+            openReasonDropdown();
+            updateSubmitButtonState();
+        }
+
+        function selectReason(reasonValue, reasonText) {
+            document.getElementById('reason').value = reasonValue;
+            document.getElementById('reasonSearch').value = reasonText;
+            setReasonValidity();
+            closeReasonDropdown();
+            updateSubmitButtonState();
+        }
+
+        function updateReasons() {
+            document.getElementById('reason').value = '';
+            document.getElementById('reasonSearch').value = '';
+            setReasonValidity();
+            renderReasonOptions();
 
             updateSubmitButtonState();
         }
@@ -462,6 +521,37 @@
 
         visitorRegistrationForm.addEventListener('input', updateSubmitButtonState);
         visitorRegistrationForm.addEventListener('change', updateSubmitButtonState);
+
+        const reasonInput = document.getElementById('reasonSearch');
+        const reasonDropdown = document.getElementById('reasonDropdown');
+
+        reasonInput.addEventListener('input', filterReasonOptions);
+        reasonInput.addEventListener('focus', function() {
+            renderReasonOptions();
+            openReasonDropdown();
+        });
+
+        document.getElementById('reasonDropdownButton').addEventListener('click', function() {
+            renderReasonOptions();
+            openReasonDropdown();
+            reasonInput.focus();
+        });
+
+        reasonDropdown.addEventListener('click', function(event) {
+            const option = event.target.closest('[data-reason-value]');
+
+            if (!option) {
+                return;
+            }
+
+            selectReason(option.dataset.reasonValue, option.dataset.reasonText);
+        });
+
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('#reasonDropdown') && !event.target.closest('#reasonSearch') && !event.target.closest('#reasonDropdownButton')) {
+                closeReasonDropdown();
+            }
+        });
 
         /*
         Branch location dropdown event bindings are temporarily disabled.
