@@ -164,7 +164,7 @@
 <input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="customerId" name="customerId" placeholder="Enter Member ID / Employer ID" type="text" required="">
 </div>
 </div>
-<!-- Branch Location - temporarily disabled, keep for future use.
+Branch Location - temporarily disabled, keep for future use.
 <div class="space-y-2">
 <label class="block font-label-lg text-label-lg text-on-surface" for="branchSearch">Branch Location<span class="text-error ml-1">*</span></label>
 <div class="relative">
@@ -179,11 +179,11 @@
 <div class="branch-dropdown absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-lg border border-outline-variant bg-surface-container-lowest shadow-lg" id="branchDropdown" role="listbox" hidden=""></div>
 </div>
 </div>
--->
+
 <!-- User Category -->
 <div class="space-y-3">
 <label class="block font-label-lg text-label-lg text-on-surface">User Category<span class="text-error ml-1">*</span></label>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
 <div>
 <input checked="" class="hidden custom-radio" id="cat-member" name="category" onchange="updateReasons()" type="radio" value="member">
 <label class="block w-full text-center border border-outline-variant rounded-lg px-4 py-3 font-label-lg text-label-lg text-on-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors" for="cat-member">Member</label>
@@ -192,10 +192,10 @@
 <input class="hidden custom-radio" id="cat-employer" name="category" onchange="updateReasons()" type="radio" value="employer">
 <label class="block w-full text-center border border-outline-variant rounded-lg px-4 py-3 font-label-lg text-label-lg text-on-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors" for="cat-employer">Employer</label>
 </div>
-<div>
+<!-- <div>
 <input class="hidden custom-radio" id="cat-business" name="category" onchange="updateReasons()" type="radio" value="business">
 <label class="block w-full text-center border border-outline-variant rounded-lg px-4 py-3 font-label-lg text-label-lg text-on-surface-variant cursor-pointer hover:bg-surface-container-low transition-colors" for="cat-business">Business</label>
-</div>
+</div> -->
 </div>
 </div>
 <!-- Reason -->
@@ -280,26 +280,39 @@
 
         const reasonOptionsByCategory = {
             member: [
-                { value: 'change-phone', text: 'Change phone number' },
-                { value: 'withdrawal', text: 'Withdrawal' },
-                { value: 'sst', text: 'SST' },
-                { value: 'counter', text: 'Counter' }
+                { value: 'register-member', text: 'Register Member' },
+                { value: 'register-i-account', text: 'Register i-Akaun' },
+                { value: 'activate-i-account', text: 'Activate i-Akaun' },
+                { value: 'reset-password', text: 'Reset Password' },
+                { value: 'check-statement', text: 'Check Statement' },
+                { value: 'check-savings-balance', text: 'Check Savings Balance' },
+                { value: 'update-personal-information', text: 'Update Personal Information' },
+                { value: 'update-tac-mobile-number', text: 'Update TAC Mobile Number' },
+                { value: 'register-fingerprint', text: 'Register Fingerprint (e-Pengeluaran)' },
+                { value: 'register-nomination', text: 'Register Nomination' },
+                { value: 'register-i-saraan', text: 'Register i-Saraan' },
+                { value: 'i-sayang', text: 'i-Sayang' },
+                { value: 'shariah-savings', text: 'Shariah Savings' },
+                { value: 'withdrawal-50', text: 'Withdrawal 50' },
+                { value: 'partial-withdrawal-50', text: 'Partial Withdrawal 50' },
+                { value: 'withdrawal-55-60', text: 'Withdrawal 55/60' },
+                { value: 'housing-withdrawal', text: 'Housing Withdrawal' },
+                { value: 'education-withdrawal', text: 'Education Withdrawal' },
+                { value: 'health-withdrawal', text: 'Health Withdrawal' },
+                { value: 'disablement-withdrawal', text: 'Disablement Withdrawal' },
+                { value: 'leaving-country-withdrawal', text: 'Leaving Country Withdrawal' },
+                { value: 'monthly-instalment-withdrawal', text: 'Monthly Instalment Withdrawal' },
+                { value: 'settle-remaining-housing-loan', text: 'Settle Remaining Housing Loan' },
+                { value: 'withdrawal-above-1-million', text: 'Withdrawal Above RM1 Million' },
+                { value: 'transfer-savings-between-own-accounts', text: 'Transfer Savings Between Own EPF Accounts' }
             ],
+
             employer: [
-                { value: 'register-member', text: 'Register member' },
-                { value: 'handing-docs', text: 'Handing out documents' },
-                { value: 'counter', text: 'Counter' }
-            ],
-            business: [
-                { value: 'business-registration', text: 'Business registration' },
-                { value: 'third-party-access', text: 'Third party access' },
-                { value: 'counter', text: 'Counter' }
+                { value: 'employer-i-account-activation', text: 'Employer i-Akaun Activation' },
+                { value: 'employer-contribution-payment', text: 'Employer Contribution Payment' }
             ]
         };
 
-        /*
-        Branch location dropdown is temporarily disabled.
-        Keep this sample branch list and helper functions for future reuse.
         const branchOptions = [
             { code: 'KDHQ', name: 'KWSP Kwasa Damansara (HQ)' },
             { code: 'KPG', name: 'KWSP Kepong' },
@@ -431,8 +444,6 @@
             updateSubmitButtonState();
         }
 
-        */
-
         function currentReasonOptions() {
             const category = document.querySelector('input[name="category"]:checked').value;
             return reasonOptionsByCategory[category] || [];
@@ -553,8 +564,8 @@
             }
         });
 
-        /*
-        Branch location dropdown event bindings are temporarily disabled.
+        // /*
+        // Branch location dropdown event bindings are temporarily disabled.
         const branchInput = document.getElementById('branchSearch');
         const branchDropdown = document.getElementById('branchDropdown');
 
@@ -585,7 +596,6 @@
                 closeBranchDropdown();
             }
         });
-        */
 
         document.getElementById('submitButton').addEventListener('click', function(event) {
             if (visitorRegistrationForm.checkValidity()) {
