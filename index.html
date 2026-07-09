@@ -153,22 +153,22 @@
 <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-surface mb-2 text-center">Visitor Registration</h1>
 <p class="font-body-md text-body-md text-on-surface-variant text-center mb-8">Please complete the form below to register your attendance at the branch.</p>
 <form class="space-y-6" id="visitorRegistrationForm">
-<!-- Staff / Member ID / Employer ID -->
+<!-- Staff / Member ID / Employer No -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="space-y-2">
-<label class="block font-label-lg text-label-lg text-on-surface" for="staffId">Staff ID<span class="text-error ml-1">*</span></label>
-<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="staffId" name="staffId" placeholder="Enter Staff ID" type="text" required="">
+<label class="block font-label-lg text-label-lg text-on-surface" for="staffId">Staff ID</label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="staffId" name="staffId" placeholder="Enter Staff ID" type="text">
 </div>
 <div class="space-y-2">
-<label class="block font-label-lg text-label-lg text-on-surface" for="customerId">Member ID / Employer ID<span class="text-error ml-1">*</span></label>
-<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="customerId" name="customerId" placeholder="Enter Member ID / Employer ID" type="text" required="">
+<label class="block font-label-lg text-label-lg text-on-surface" for="customerId" id="customerIdLabel">Member IC / Passport<span class="text-error ml-1">*</span></label>
+<input class="w-full bg-surface border border-outline-variant rounded-lg px-4 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="customerId" name="customerId" placeholder="Enter Member IC / Passport" type="text" required="">
 </div>
 </div>
-<!-- Branch Location - temporarily disabled, keep for future use. -->
-<div class="space-y-2">
+<!-- Branch Location - temporarily hidden, keep for future use. -->
+<div class="space-y-2" style="display:none">
 <label class="block font-label-lg text-label-lg text-on-surface" for="branchSearch">Branch Location<span class="text-error ml-1">*</span></label>
 <div class="relative">
-<input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="branchSearch" name="branchSearch" placeholder="Search or select branch..." type="search" autocomplete="off" role="combobox" aria-controls="branchDropdown" aria-expanded="false" required="">
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="branchSearch" name="branchSearch" placeholder="Search or select branch..." type="search" autocomplete="off" role="combobox" aria-controls="branchDropdown" aria-expanded="false">
 <input id="branch" name="branch" type="hidden">
 <div class="pointer-events-none absolute top-0 bottom-0 left-0 flex items-center px-4 text-on-surface-variant">
 <span class="material-symbols-outlined">search</span>
@@ -198,11 +198,11 @@
 </div> -->
 </div>
 </div>
-<!-- Reason -->
-<div class="space-y-2">
+<!-- Reason - temporarily hidden, keep for future use. -->
+<div class="space-y-2" style="display:none">
 <label class="block font-label-lg text-label-lg text-on-surface" for="reasonSearch">Reason<span class="text-error ml-1">*</span></label>
 <div class="relative">
-<input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="reasonSearch" name="reasonSearch" placeholder="Search or select reason..." type="search" autocomplete="off" role="combobox" aria-controls="reasonDropdown" aria-expanded="false" required="">
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-12 py-3 font-body-md text-body-md focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="reasonSearch" name="reasonSearch" placeholder="Search or select reason..." type="search" autocomplete="off" role="combobox" aria-controls="reasonDropdown" aria-expanded="false">
 <input id="reason" name="reason" type="hidden">
 <div class="pointer-events-none absolute top-0 bottom-0 left-0 flex items-center px-4 text-on-surface-variant">
 <span class="material-symbols-outlined">search</span>
@@ -221,61 +221,11 @@
 </form>
 </div>
 </main>
-<!-- Footer -->
-<footer class="bg-primary dark:bg-[#001d5a] border-t border-outline-variant full-width bottom-0">
-<div class="w-full max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop py-12">
-<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-<div class="col-span-1">
-<div class="brightness-0 invert h-12 w-auto mb-4 overflow-hidden flex items-center"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAk_7pgEN88VWth-LO-wpUNh480x3_Ham23AVat-3kORwSOclbJmXPkIEpX8EUd47DhVRlZa2VsXVX2jcV_0wavn6bMBI2fikK_DzMk6J-Z4reBjBENkE91oHE9svIrNXsT2ecwEF-uqkpiZ1vQvkq27zwJCI5_CUXAaBOHQlgf49lvPXq8_L9lNjSyvImGNCUsxlOtoeJYcHXbp7YhYXpIwQsy7AMTBaCVj4LkZV_-sTEwOR6zfkPHG2lVLyRg_R1QJgWnPOH01LHSHqo" alt="KWSP EPF Logo" class="h-12 w-auto object-contain"></div>
-<p class="text-white/80 text-body-sm mt-4">Kumpulan Wang Simpanan Pekerja (KWSP)</p>
-</div>
-<div>
-<h3 class="text-white font-bold mb-4">About EPF</h3>
-<ul class="space-y-2 text-white/70 text-body-sm">
-<li class=""><a class="hover:text-white transition-colors" href="#">Who We Are</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">Vision &amp; Mission</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">Governance</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">News &amp; Highlights</a></li>
-</ul>
-</div>
-<div>
-<h3 class="text-white font-bold mb-4">Quick Links</h3>
-<ul class="space-y-2 text-white/70 text-body-sm">
-<li class=""><a class="hover:text-white transition-colors" href="#">i-Akaun</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">Branch Locator</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">Forms</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">Calculators</a></li>
-</ul>
-</div>
-<div>
-<h3 class="text-white font-bold mb-4">Need Help?</h3>
-<ul class="space-y-2 text-white/70 text-body-sm">
-<li class=""><a class="hover:text-white transition-colors" href="#">Contact Us</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">FAQ</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">Feedback</a></li>
-<li class=""><a class="hover:text-white transition-colors" href="#">Security Awareness</a></li>
-</ul>
-</div>
-</div>
-<div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-<div class="flex gap-4">
-<a class="text-white/60 hover:text-white" href="#"><span class="material-symbols-outlined">public</span></a>
-<a class="text-white/60 hover:text-white" href="#"><span class="material-symbols-outlined">share</span></a>
-<a class="text-white/60 hover:text-white" href="#"><span class="material-symbols-outlined">group</span></a>
-</div>
-<p class="text-white/50 text-label-sm text-center md:text-left">© 2026 Employees Provident Fund. All Rights Reserved.</p>
-<div class="flex gap-6">
-<a class="text-white/60 hover:text-white text-label-sm" href="#">Privacy Policy</a>
-<a class="text-white/60 hover:text-white text-label-sm" href="#">Terms &amp; Conditions</a>
-</div>
-</div>
-</div>
-</footer>
 <script>
         const categoryRedirectUrls = {
-            member: 'https://iakaun.kwsp.gov.my/portal/member/login?sessions=2ae523785d0caf4d2fb557c12016185c',
-            employer: 'https://secure.kwsp.gov.my/employer/employer/login?sessions=2ae523785d0caf4d2fb557c12016185c',
-            business: 'https://secure.kwsp.gov.my/thirdparty/login?sessions=2ae523785d0caf4d2fb557c12016185c'
+            member: 'https://iakaun.kwsp.gov.my/portal/member/login',
+            employer: 'https://secure.kwsp.gov.my/employer/employer/login',
+            business: 'https://secure.kwsp.gov.my/thirdparty/login'
         };
 
         const reasonOptionsByCategory = {
@@ -387,9 +337,8 @@
         ];
 
         function setBranchValidity() {
-            const branchInput = document.getElementById('branchSearch');
-            const selectedBranchCode = document.getElementById('branch').value;
-            branchInput.setCustomValidity(selectedBranchCode ? '' : 'Please select a branch from the list.');
+            // Temporarily disabled — branch field is hidden
+            document.getElementById('branchSearch').setCustomValidity('');
         }
 
         function renderBranchOptions(options = branchOptions) {
@@ -450,9 +399,8 @@
         }
 
         function setReasonValidity() {
-            const reasonInput = document.getElementById('reasonSearch');
-            const selectedReason = document.getElementById('reason').value;
-            reasonInput.setCustomValidity(selectedReason ? '' : 'Please select a reason from the list.');
+            // Temporarily disabled — reason field is hidden
+            document.getElementById('reasonSearch').setCustomValidity('');
         }
 
         function renderReasonOptions(options = currentReasonOptions()) {
@@ -506,11 +454,22 @@
             updateSubmitButtonState();
         }
 
+        const customerIdLabels = {
+            member: 'Member IC / Passport',
+            employer: 'Employer No'
+        };
+
         function updateReasons() {
             document.getElementById('reason').value = '';
             document.getElementById('reasonSearch').value = '';
             setReasonValidity();
             renderReasonOptions();
+
+            const category = document.querySelector('input[name="category"]:checked').value;
+            const labelText = customerIdLabels[category] || 'Member IC / Passport';
+            const labelEl = document.getElementById('customerIdLabel');
+            labelEl.childNodes[0].textContent = labelText;
+            document.getElementById('customerId').placeholder = 'Enter ' + labelText;
 
             updateSubmitButtonState();
         }
